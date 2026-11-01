@@ -26,6 +26,7 @@ import {
   Layers,
 } from 'lucide-react';
 import { ProductCategory, ProductBrand } from '../types';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface NavbarProps {
   onOpenPWA: () => void;
@@ -50,6 +51,7 @@ interface NavbarProps {
   onBrandChange: (brand: ProductBrand | 'all') => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
+  isCartPopping?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -75,6 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onBrandChange,
   isDarkMode,
   onToggleDarkMode,
+  isCartPopping = false,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -281,21 +284,75 @@ export const Navbar: React.FC<NavbarProps> = ({
               {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
 
-            {/* Cart Button */}
-            <button
+            {/* Cart Button with Framer Motion Cart-Pop Animation & 1s Visual Highlight */}
+            <motion.button
               id="nav-cart-btn"
               onClick={onOpenCart}
-              className="relative flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 px-3 py-2 text-xs font-bold text-stone-950 shadow-md shadow-orange-500/20 active:scale-95 transition"
+              animate={
+                isCartPopping
+                  ? {
+                      scale: [1, 1.18, 0.94, 1.06, 1],
+                      boxShadow: [
+                        '0 0 0 rgba(249, 115, 22, 0)',
+                        '0 0 25px rgba(245, 158, 11, 0.9)',
+                        '0 0 18px rgba(245, 158, 11, 0.7)',
+                        '0 0 0 rgba(249, 115, 22, 0)',
+                      ],
+                    }
+                  : { scale: 1 }
+              }
+              transition={{ duration: 0.55, ease: 'easeOut' }}
+              className={`relative flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold active:scale-95 transition-all duration-300 ${
+                isCartPopping
+                  ? 'bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 text-stone-950 ring-4 ring-amber-400/80 shadow-xl shadow-orange-500/50 scale-105'
+                  : 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-stone-950 shadow-md shadow-orange-500/20'
+              }`}
               title="View Shopping Cart"
             >
-              <ShoppingCart className="h-4 w-4" />
+              <motion.div
+                animate={
+                  isCartPopping
+                    ? {
+                        scale: [1, 1.35, 1],
+                        rotate: [0, -12, 12, -6, 0],
+                      }
+                    : { scale: 1, rotate: 0 }
+                }
+                transition={{ duration: 0.45 }}
+              >
+                <ShoppingCart className="h-4 w-4" />
+              </motion.div>
               <span className="hidden sm:inline">Cart</span>
               {cartCount > 0 && (
-                <span className="flex h-5 min-w-[20px] items-center justify-center rounded-full bg-stone-950 px-1 text-[11px] font-black text-amber-300">
+                <motion.span
+                  key={cartCount}
+                  animate={isCartPopping ? { scale: [1, 1.45, 1] } : { scale: 1 }}
+                  transition={{ duration: 0.35 }}
+                  className={`flex h-5 min-w-[20px] items-center justify-center rounded-full px-1 text-[11px] font-black transition-colors ${
+                    isCartPopping
+                      ? 'bg-stone-950 text-emerald-400 ring-2 ring-emerald-400'
+                      : 'bg-stone-950 text-amber-300'
+                  }`}
+                >
                   {cartCount}
-                </span>
+                </motion.span>
               )}
-            </button>
+
+              {/* Floating +1 Added notification confirmation pill */}
+              <AnimatePresence>
+                {isCartPopping && (
+                  <motion.span
+                    initial={{ opacity: 0, y: 8, scale: 0.8 }}
+                    animate={{ opacity: 1, y: -24, scale: 1 }}
+                    exit={{ opacity: 0, y: -32, scale: 0.8 }}
+                    transition={{ duration: 0.28, ease: 'easeOut' }}
+                    className="absolute -top-1 left-1/2 -translate-x-1/2 pointer-events-none rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-black text-stone-950 shadow-xl border border-emerald-300 tracking-wider whitespace-nowrap"
+                  >
+                    +1 Added!
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </motion.button>
 
             {/* Menu Button */}
             <button

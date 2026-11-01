@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Cpu,
   ShieldCheck,
@@ -67,6 +67,8 @@ export default function App() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [notifications, setNotifications] = useState<BroadcastNotification[]>(INITIAL_NOTIFICATIONS);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [isCartPopping, setIsCartPopping] = useState(false);
+  const cartPopTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Price Drop Alerts state
   const [isAlertsOpen, setIsAlertsOpen] = useState(false);
@@ -366,9 +368,17 @@ export default function App() {
     });
   };
 
-  // Cart Operations (Logs privacy-friendly anonymous cart additions)
+  // Cart Operations (Logs privacy-friendly anonymous cart additions & triggers Framer Motion cart-pop)
   const handleAddToCart = (product: Product, quantity = 1) => {
     logCartAddition(product, quantity);
+
+    // Trigger subtle cart-pop animation and 1-second visual highlight confirmation
+    setIsCartPopping(true);
+    if (cartPopTimeoutRef.current) clearTimeout(cartPopTimeoutRef.current);
+    cartPopTimeoutRef.current = setTimeout(() => {
+      setIsCartPopping(false);
+    }, 1000);
+
     setCart((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -636,6 +646,7 @@ export default function App() {
         onBrandChange={setSelectedBrand}
         isDarkMode={isDarkMode}
         onToggleDarkMode={toggleTheme}
+        isCartPopping={isCartPopping}
       />
 
       {/* Hero Showcase Section - Spacious, Executive, and Uncluttered */}
@@ -1391,6 +1402,7 @@ export default function App() {
         onOpenAIChat={() => setIsAIChatOpen(true)}
         onOpenCart={() => setIsCartOpen(true)}
         cartCount={cartCount}
+        isCartPopping={isCartPopping}
       />
     </div>
   );

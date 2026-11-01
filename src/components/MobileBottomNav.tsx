@@ -6,6 +6,7 @@ import {
   MessageCircle,
   ShoppingCart,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface MobileBottomNavProps {
   onOpenHome: () => void;
@@ -15,6 +16,7 @@ interface MobileBottomNavProps {
   onOpenCart: () => void;
   cartCount: number;
   isDarkMode?: boolean;
+  isCartPopping?: boolean;
 }
 
 export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
@@ -25,6 +27,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   onOpenCart,
   cartCount,
   isDarkMode = false,
+  isCartPopping = false,
 }) => {
   return (
     <div
@@ -85,23 +88,56 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <span className="text-[10px] font-semibold">WhatsApp</span>
         </a>
 
-        {/* Cart */}
-        <button
+        {/* Cart Button with Framer Motion Cart-Pop Animation */}
+        <motion.button
           onClick={onOpenCart}
-          className={`relative flex flex-col items-center gap-0.5 p-1 active:scale-95 transition ${
-            isDarkMode ? 'text-stone-400 hover:text-amber-400' : 'text-slate-600 hover:text-orange-600'
+          animate={
+            isCartPopping
+              ? {
+                  scale: [1, 1.25, 0.94, 1.08, 1],
+                }
+              : { scale: 1 }
+          }
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className={`relative flex flex-col items-center gap-0.5 p-1 rounded-xl transition ${
+            isCartPopping
+              ? 'text-orange-500 font-bold bg-orange-500/15 ring-2 ring-orange-500/50'
+              : isDarkMode
+              ? 'text-stone-400 hover:text-amber-400'
+              : 'text-slate-600 hover:text-orange-600'
           }`}
         >
           <div className="relative">
-            <ShoppingCart className="h-5 w-5" />
+            <motion.div
+              animate={
+                isCartPopping
+                  ? {
+                      scale: [1, 1.3, 1],
+                      rotate: [0, -10, 10, -5, 0],
+                    }
+                  : { scale: 1, rotate: 0 }
+              }
+              transition={{ duration: 0.4 }}
+            >
+              <ShoppingCart className="h-5 w-5" />
+            </motion.div>
             {cartCount > 0 && (
-              <span className="absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-[10px] font-black text-stone-950">
+              <motion.span
+                key={cartCount}
+                animate={isCartPopping ? { scale: [1, 1.45, 1] } : { scale: 1 }}
+                transition={{ duration: 0.35 }}
+                className={`absolute -top-1.5 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-black transition-colors ${
+                  isCartPopping
+                    ? 'bg-emerald-400 text-stone-950 ring-2 ring-emerald-300'
+                    : 'bg-gradient-to-r from-orange-500 to-amber-500 text-stone-950'
+                }`}
+              >
                 {cartCount}
-              </span>
+              </motion.span>
             )}
           </div>
           <span className="text-[10px] font-semibold">Cart</span>
-        </button>
+        </motion.button>
       </div>
     </div>
   );
