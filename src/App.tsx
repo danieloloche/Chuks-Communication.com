@@ -23,6 +23,7 @@ import {
   FileText,
   X,
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Product, Order, BroadcastNotification, CartItem, ProductCategory, ProductBrand, PriceDropAlert } from './types';
 import { INITIAL_PRODUCTS, INITIAL_NOTIFICATIONS } from './data/initialProducts';
 import { Navbar } from './components/Navbar';
@@ -901,58 +902,73 @@ export default function App() {
         </div>
       </section>
 
-      {/* Technician Diagnostic & Pricing Suite Tool - Displayed in its dedicated, spacious workspace */}
-      {mainWorkspaceView === 'workbench' && (
-        <section id="technician-quick-tool" className="mx-auto max-w-7xl px-3 py-6 sm:px-6 animate-in fade-in duration-200">
-          <div className={`mb-4 flex items-center justify-between rounded-2xl border px-4 py-3 ${
-            isDarkMode
-              ? 'border-orange-500/35 bg-orange-950/20'
-              : 'border-orange-200 bg-orange-50/80'
-          }`}>
-            <div className="flex items-center gap-2.5">
-              <span className={`flex h-8 w-8 items-center justify-center rounded-xl ${
-                isDarkMode ? 'bg-orange-500/20 text-orange-400' : 'bg-orange-500/10 text-orange-600'
-              }`}>
-                <Wrench className="h-4 w-4" />
-              </span>
-              <div>
-                <h3 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Technician Diagnostics & Part Scanner</h3>
-                <p className={`text-[11px] ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>Camera QR lookup, Transsion cross-codes, screen grade guide & repair quotes</p>
+      {/* Workspace Content: Framer Motion animated view switching between Catalog and Workbench */}
+      <AnimatePresence mode="wait">
+        {mainWorkspaceView === 'workbench' ? (
+          <motion.section
+            key="workbench-view"
+            id="technician-quick-tool"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto max-w-7xl px-3 py-6 sm:px-6"
+          >
+            <div className={`mb-4 flex items-center justify-between rounded-2xl border px-4 py-3 ${
+              isDarkMode
+                ? 'border-orange-500/35 bg-orange-950/20'
+                : 'border-orange-200 bg-orange-50/80'
+            }`}>
+              <div className="flex items-center gap-2.5">
+                <span className={`flex h-8 w-8 items-center justify-center rounded-xl ${
+                  isDarkMode ? 'bg-orange-500/20 text-orange-400' : 'bg-orange-500/10 text-orange-600'
+                }`}>
+                  <Wrench className="h-4 w-4" />
+                </span>
+                <div>
+                  <h3 className={`text-sm font-bold ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Technician Diagnostics & Part Scanner</h3>
+                  <p className={`text-[11px] ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>Camera QR lookup, Transsion cross-codes, screen grade guide & repair quotes</p>
+                </div>
               </div>
+
+              <button
+                onClick={() => {
+                  setMainWorkspaceView('catalog');
+                  document.getElementById('products-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${
+                  isDarkMode
+                    ? 'border-stone-700 bg-stone-900 text-stone-200 hover:text-white hover:border-orange-500'
+                    : 'border-slate-200 bg-white text-slate-700 hover:text-orange-600 hover:border-orange-400 shadow-xs'
+                }`}
+              >
+                <Package className="h-3.5 w-3.5 text-orange-500" />
+                <span>View Parts Catalog</span>
+              </button>
             </div>
 
-            <button
-              onClick={() => {
+            <TechnicianQuickTool
+              onOpenLedger={() => setIsLedgerOpen(true)}
+              onFilterSearch={(term) => {
+                setSearchQuery(term);
                 setMainWorkspaceView('catalog');
-                document.getElementById('products-catalog')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition ${
-                isDarkMode
-                  ? 'border-stone-700 bg-stone-900 text-stone-200 hover:text-white hover:border-orange-500'
-                  : 'border-slate-200 bg-white text-slate-700 hover:text-orange-600 hover:border-orange-400 shadow-xs'
-              }`}
-            >
-              <Package className="h-3.5 w-3.5 text-orange-500" />
-              <span>View Parts Catalog</span>
-            </button>
-          </div>
-
-          <TechnicianQuickTool
-            onOpenLedger={() => setIsLedgerOpen(true)}
-            onFilterSearch={(term) => {
-              setSearchQuery(term);
-              setMainWorkspaceView('catalog');
-            }}
-            products={products}
-            onSelectProduct={(p) => setSelectedProduct(p)}
-            onAddToCart={handleAddToCart}
-            onOpenQRLabel={(p) => setQrLabelProduct(p)}
-          />
-        </section>
-      )}
-
-      {/* Main Catalog View */}
-      <main id="products-catalog" className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+              products={products}
+              onSelectProduct={(p) => setSelectedProduct(p)}
+              onAddToCart={handleAddToCart}
+              onOpenQRLabel={(p) => setQrLabelProduct(p)}
+            />
+          </motion.section>
+        ) : (
+          <motion.main
+            key="catalog-view"
+            id="products-catalog"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto max-w-7xl px-4 py-8 sm:px-6"
+          >
         {/* Filters and sorting bar */}
         <div className={`mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4 ${
           isDarkMode ? 'border-stone-800' : 'border-slate-200'
@@ -1100,8 +1116,11 @@ export default function App() {
           onNotifyBackInStock={(prod) => setBackInStockProduct(prod)}
           wishlist={wishlist}
           cartProductIds={cart.filter((i) => i?.product?.id).map((i) => i.product.id)}
+          isLoading={isLoadingProducts}
         />
-      </main>
+      </motion.main>
+    )}
+  </AnimatePresence>
 
       {/* Footer */}
       <footer className={`border-t py-12 px-4 sm:px-6 transition-colors ${
@@ -1284,6 +1303,7 @@ export default function App() {
         onUpdateOrderStatus={handleAdminUpdateOrderStatus}
         onSendBroadcast={handleAdminSendBroadcast}
         onOpenQRLabel={(prod) => setQrLabelProduct(prod)}
+        isLoading={isLoadingProducts}
       />
 
       <MyOrdersModal

@@ -2,6 +2,7 @@ import React from 'react';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
 import { ProductCard } from './ProductCard';
+import { ProductCardSkeleton } from './ProductCardSkeleton';
 
 interface BrowsingRecommendationsProps {
   products: Product[];
@@ -12,6 +13,7 @@ interface BrowsingRecommendationsProps {
   onNotifyBackInStock?: (product: Product) => void;
   wishlist: string[];
   cartProductIds: string[];
+  isLoading?: boolean;
 }
 
 export const BrowsingRecommendations: React.FC<BrowsingRecommendationsProps> = ({
@@ -23,7 +25,28 @@ export const BrowsingRecommendations: React.FC<BrowsingRecommendationsProps> = (
   onNotifyBackInStock,
   wishlist,
   cartProductIds,
+  isLoading = false,
 }) => {
+  // If explicitly loading, render layout-stable skeleton shelf
+  if (isLoading) {
+    return (
+      <section id="browsing-recommendations-skeleton" className="my-10 rounded-2xl border border-slate-800 bg-slate-950/60 p-6 animate-pulse">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-8 w-8 rounded-lg bg-slate-800" />
+          <div className="space-y-1.5">
+            <div className="h-4 w-52 rounded bg-slate-800" />
+            <div className="h-3 w-80 rounded bg-slate-800/60" />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <ProductCardSkeleton key={`rec-skeleton-${idx}`} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   // Find categories and brands of viewed products
   const viewedProducts = products.filter((p) => viewedProductIds.includes(p.id));
   const viewedBrands = Array.from(new Set(viewedProducts.map((p) => p.brand)));

@@ -61,6 +61,7 @@ interface AdminDashboardProps {
   onUpdateOrderStatus: (orderId: string, status: Order['orderStatus']) => void;
   onSendBroadcast: (notification: Omit<BroadcastNotification, 'id' | 'timestamp'>) => void;
   onOpenQRLabel?: (product: Product) => void;
+  isLoading?: boolean;
 }
 
 export const AdminDashboard: React.FC<AdminDashboardProps> = ({
@@ -76,6 +77,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   onUpdateOrderStatus,
   onSendBroadcast,
   onOpenQRLabel,
+  isLoading = false,
 }) => {
   const [activeTab, setActiveTab] = useState<'inventory' | 'orders' | 'broadcast' | 'branding' | 'trending-parts' | 'pwa-diagnostics'>('inventory');
   const analyticsSummary = getAnalyticsSummary(products);
@@ -899,8 +901,97 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 </div>
               </div>
 
-              {/* PRODUCTS DISPLAY: SPACIOUS BIG CARDS VIEW OR ROOMY TABLE */}
-              {sortedProducts.length === 0 ? (
+              {/* PRODUCTS DISPLAY: SKELETON LOADING, SPACIOUS BIG CARDS VIEW OR ROOMY TABLE */}
+              {isLoading ? (
+                layoutMode === 'table' ? (
+                  /* SKELETON TABLE STATE */
+                  <div id="admin-table-skeleton" className="rounded-2xl border border-slate-800 bg-slate-950/80 overflow-hidden shadow-xl animate-pulse">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-slate-900/90 text-slate-400 uppercase font-black text-[10px] tracking-wider border-b border-slate-800">
+                        <tr>
+                          <th className="p-4">Product / Part</th>
+                          <th className="p-4">Category</th>
+                          <th className="p-4">Screen Price</th>
+                          <th className="p-4">Stock</th>
+                          <th className="p-4">Warranty</th>
+                          <th className="p-4 text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-800/60">
+                        {Array.from({ length: 6 }).map((_, idx) => (
+                          <tr key={`admin-tbl-skel-${idx}`}>
+                            <td className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="h-11 w-11 rounded-xl bg-slate-800 shrink-0" />
+                                <div className="space-y-1.5 flex-1">
+                                  <div className="h-4 w-44 rounded bg-slate-800" />
+                                  <div className="h-3 w-28 rounded bg-slate-800/60" />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <div className="h-6 w-20 rounded-lg bg-slate-800" />
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center gap-2">
+                                <div className="h-6 w-24 rounded bg-slate-800" />
+                                <div className="h-7 w-20 rounded-xl bg-slate-800/70" />
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center gap-2">
+                                <div className="h-7 w-7 rounded-lg bg-slate-800" />
+                                <div className="h-4 w-8 rounded bg-slate-800" />
+                                <div className="h-7 w-7 rounded-lg bg-slate-800" />
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <div className="h-4 w-20 rounded bg-slate-800/60" />
+                            </td>
+                            <td className="p-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
+                                <div className="h-7 w-7 rounded-lg bg-slate-800" />
+                                <div className="h-7 w-7 rounded-lg bg-slate-800" />
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  /* SKELETON GRID CARDS STATE */
+                  <div id="admin-grid-skeleton" className="grid grid-cols-1 min-[580px]:grid-cols-2 xl:grid-cols-3 gap-3.5 sm:gap-5 animate-pulse">
+                    {Array.from({ length: 6 }).map((_, idx) => (
+                      <div
+                        key={`admin-card-skel-${idx}`}
+                        className="flex flex-col justify-between rounded-2xl border border-slate-800 bg-slate-950/80 p-5 shadow-lg space-y-4"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="h-5 w-20 rounded-lg bg-slate-800" />
+                          <div className="h-4 w-24 rounded bg-slate-800/60" />
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="h-16 w-16 rounded-xl bg-slate-800 shrink-0" />
+                          <div className="space-y-2 flex-1">
+                            <div className="h-4 w-3/4 rounded bg-slate-800" />
+                            <div className="h-3 w-1/2 rounded bg-slate-800/70" />
+                          </div>
+                        </div>
+                        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 space-y-2">
+                          <div className="h-3 w-28 rounded bg-slate-800/60" />
+                          <div className="h-7 w-32 rounded bg-slate-800" />
+                          <div className="h-9 w-full rounded-xl bg-slate-800/80 mt-2" />
+                        </div>
+                        <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
+                          <div className="h-4 w-24 rounded bg-slate-800/60" />
+                          <div className="h-7 w-28 rounded-lg bg-slate-800" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )
+              ) : sortedProducts.length === 0 ? (
                 <div className="my-12 flex flex-col items-center justify-center text-center p-8 rounded-2xl border border-slate-800 bg-slate-950/60">
                   <Search className="h-12 w-12 text-slate-600 mb-2" />
                   <h4 className="text-base font-bold text-slate-200">No matching parts found</h4>
