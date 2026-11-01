@@ -1,0 +1,58 @@
+{
+  "id": "/",
+  "name": "Chuks Communication • Screens, Calibrators & Down Boards",
+  "short_name": "Chuks Comm",
+  "description": "Chuks Communication - Park Road, Gwagwalada, Abuja. Phone screens, down boards, calibrators, tested phone parts, and accessories with fast dispatch. Call 07039564380.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "theme_color": "#0c0a09",
+  "background_color": "#0c0a09",
+  "categories": ["shopping", "business", "utilities"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop Parts",
+      "short_name": "Shop",
+      "description": "Browse replacement screens, batteries, and phone accessories",
+      "url": "/?view=shop#products-catalog",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Track Order",
+      "short_name": "Track Order",
+      "description": "Check dispatch status, rider updates, and receipt verification",
+      "url": "/?action=track",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Technician Ledger",
+      "short_name": "Technician Ledger",
+      "description": "Real-time wholesale screen prices, pinout cross-codes & job estimates",
+      "url": "/?action=ledger",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

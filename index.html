@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+    <title>Chuks Communication • Screens, Calibrators & Down Boards</title>
+    <meta name="description" content="Chuks Communication - Park Road, Gwagwalada, Abuja. Screens, Calibrators & Down Boards, tested phone parts, and accessories with fast dispatch. Call 07039564380." />
+    <meta property="og:title" content="Chuks Communication • Screens, Calibrators & Down Boards" />
+    <meta property="og:description" content="Chuks Communication - Park Road, Gwagwalada, Abuja. Screens, Calibrators & Down Boards, tested phone parts, and accessories with fast dispatch. Call 07039564380." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f8fafc" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Chuks Communication" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <script>
+      // Early capture of PWA beforeinstallprompt event before React mounts
+      window.__deferredPWAInstallPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.__deferredPWAInstallPrompt = e;
+        window.dispatchEvent(new CustomEvent('chuks_pwa_prompt_ready', { detail: e }));
+      });
+      window.addEventListener('appinstalled', function () {
+        window.__isPWAInstalled = true;
+        window.__deferredPWAInstallPrompt = null;
+        window.dispatchEvent(new CustomEvent('chuks_pwa_installed'));
+      });
+      // Safely capture PWA prompt for manual or button-triggered install
+      // Service worker is managed by React application lifecycle
+    </script>
+    <style>
+      /* Lightweight CSS splash screen displayed immediately while the React bundle is loading (Light UI) */
+      #chuks-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        padding: 24px;
+        text-align: center;
+        user-select: none;
+        -webkit-user-select: none;
+        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+      }
+      #chuks-splash.fade-out {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .splash-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 380px;
+        width: 100%;
+      }
+      .splash-logo-box {
+        position: relative;
+        width: 76px;
+        height: 76px;
+        border-radius: 20px;
+        background: #ffffff;
+        border: 1.5px solid rgba(249, 115, 22, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(249, 115, 22, 0.15);
+        animation: splashFloat 3s ease-in-out infinite;
+      }
+      .splash-logo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .splash-live-indicator {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #10b981;
+        border: 2px solid #ffffff;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+      }
+      .splash-title {
+        margin: 20px 0 0 0;
+        font-size: 18px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #0f172a;
+        line-height: 1.2;
+      }
+      .splash-subtitle {
+        margin: 6px 0 0 0;
+        font-size: 11px;
+        font-weight: 600;
+        color: #ea580c;
+        letter-spacing: 0.04em;
+        line-height: 1.4;
+      }
+      .splash-spinner-wrap {
+        margin-top: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .splash-spinner {
+        width: 28px;
+        height: 28px;
+        border: 2.5px solid rgba(0, 0, 0, 0.08);
+        border-top-color: #f97316;
+        border-right-color: #ea580c;
+        border-radius: 50%;
+        animation: splashSpin 0.8s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+      }
+      .splash-caption {
+        margin-top: 14px;
+        font-size: 11px;
+        font-weight: 500;
+        color: #64748b;
+        letter-spacing: 0.02em;
+      }
+      @keyframes splashSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes splashFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-orange-500 selection:text-white">
+    <!-- Lightweight CSS-based splash screen: displays instantly while the React bundle is loading -->
+    <div id="chuks-splash" aria-hidden="true">
+      <div class="splash-content">
+        <div class="splash-logo-box">
+          <img src="/icon.svg" alt="Chuks Communication Logo" width="76" height="76" />
+          <span class="splash-live-indicator"></span>
+        </div>
+        <h1 class="splash-title">Chuks Communication</h1>
+        <p class="splash-subtitle">Screens, Calibrators & Down Boards • Gwagwalada, Abuja</p>
+        <div class="splash-spinner-wrap">
+          <div class="splash-spinner"></div>
+        </div>
+        <p class="splash-caption">Loading genuine phone parts catalog...</p>
+      </div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fallback failsafe to dismiss splash screen if mounting is delayed
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          var sp = document.getElementById('chuks-splash');
+          if (sp && !sp.classList.contains('fade-out')) {
+            sp.classList.add('fade-out');
+            setTimeout(function () {
+              if (sp && sp.parentNode) sp.parentNode.removeChild(sp);
+            }, 400);
+          }
+        }, 3500);
+      });
+    </script>
+  </body>
+</html>
+
