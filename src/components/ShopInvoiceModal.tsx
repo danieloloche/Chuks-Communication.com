@@ -554,11 +554,11 @@ export const ShopInvoiceModal: React.FC<ShopInvoiceModalProps> = ({
   return (
     <div
       id="shop-invoice-modal-overlay"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-2 sm:p-4 backdrop-blur-md overflow-y-auto print:p-0 print:bg-white print:fixed print:inset-0"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-2 sm:p-4 backdrop-blur-md overflow-y-auto print:p-0 print:bg-white print:static print:inset-auto print:block print:overflow-visible"
     >
       <div
         id="shop-invoice-modal-container"
-        className="relative my-auto flex max-h-[96dvh] w-full max-w-5xl flex-col rounded-3xl border border-stone-800 bg-stone-950 text-stone-100 shadow-2xl overflow-hidden print:max-h-none print:w-full print:border-none print:shadow-none print:bg-white print:text-black"
+        className="relative my-auto flex max-h-[96dvh] w-full max-w-5xl flex-col rounded-3xl border border-stone-800 bg-stone-950 text-stone-100 shadow-2xl overflow-hidden print:max-h-none print:w-full print:border-none print:shadow-none print:bg-white print:text-slate-900 print:overflow-visible print:m-0 print:p-0"
       >
         {/* Top Control Bar (Hidden when Printing) */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-stone-800 bg-stone-900/90 px-4 py-3 sm:px-6 print:hidden">
@@ -766,7 +766,7 @@ export const ShopInvoiceModal: React.FC<ShopInvoiceModalProps> = ({
         )}
 
         {/* MAIN INVOICE PAPER SCROLLABLE BODY */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-stone-950/80">
+        <div className="flex-1 overflow-y-auto p-3 sm:p-6 bg-stone-950/80 print:bg-white print:overflow-visible print:p-0 print:m-0">
           <div
             ref={invoicePaperRef}
             id="printable-invoice-paper"

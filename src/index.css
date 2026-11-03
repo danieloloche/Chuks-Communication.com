@@ -33,20 +33,38 @@
   scrollbar-width: none;
 }
 
-/* Comprehensive Print Styles for Official Invoices, Bills & Receipts */
+/* ==========================================================================
+   Comprehensive Print Styles for Official Invoices, Bills & Receipts
+   Guarantees a clean, professional white-background layout with properly
+   aligned columns regardless of app or modal theme mode.
+   ========================================================================== */
 @media print {
   @page {
     margin: 8mm;
     size: auto;
   }
 
-  html, body {
+  /* Universal reset for print medium */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  html,
+  body {
     background-color: #ffffff !important;
+    background: #ffffff !important;
     color: #0f172a !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
     overflow: visible !important;
     height: auto !important;
+    width: 100% !important;
+    font-size: 11pt;
+    line-height: 1.4;
   }
 
   #root {
@@ -54,55 +72,284 @@
     height: auto !important;
     min-height: auto !important;
     display: block !important;
+    background: #ffffff !important;
   }
 
   /* Hide app navigation, headers, footers, interactive elements, chats, toasts, and PWA prompts */
   header,
   footer,
   aside,
+  nav,
   #app-floating-chat-trigger,
+  #ai-bot-floating-btn,
+  #ai-bot-panel,
   #pwa-automated-install-nudge,
+  #pwa-install-banner,
+  #main-workspace-hub,
   .print\:hidden {
     display: none !important;
   }
 
-  /* Shop Invoice Paper Pad Print Setup */
+  /* Overlay Reset: Remove fixed black backdrop, padding, and blur */
   #shop-invoice-modal-overlay,
   #receipt-modal-backdrop,
   #technician-quote-modal-backdrop,
   #part-qr-modal-backdrop {
     position: static !important;
-    background: transparent !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     padding: 0 !important;
     margin: 0 !important;
     overflow: visible !important;
     display: block !important;
     width: 100% !important;
     height: auto !important;
+    inset: auto !important;
   }
 
+  /* Modal Container Reset */
   #shop-invoice-modal-container,
   #receipt-modal-card,
   #technician-quote-card,
   #part-qr-modal-card {
     border: none !important;
     box-shadow: none !important;
-    background: transparent !important;
-    color: #000000 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
     max-width: 100% !important;
     max-height: none !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
+    border-radius: 0 !important;
   }
 
+  /* Force Printable Invoice Paper to Crisp White & High Contrast */
   #printable-invoice-paper {
-    border: 2px solid #005599 !important;
     background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #0f172a !important;
+    border-radius: 6px !important;
+    padding: 18px 24px !important;
+    margin: 0 auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Invoice Header */
+  #printable-invoice-paper h1 {
     color: #003366 !important;
-    padding: 16px !important;
+    font-size: 20pt !important;
+    font-weight: 900 !important;
+    margin: 0 0 4px 0 !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  #printable-invoice-paper .border-b-2 {
+    border-color: #0f172a !important;
+  }
+
+  #printable-invoice-paper p,
+  #printable-invoice-paper span,
+  #printable-invoice-paper div {
+    color: #0f172a !important;
+  }
+
+  /* Specific accents in header */
+  #printable-invoice-paper .text-\[\#005599\],
+  #printable-invoice-paper .text-amber-400 {
+    color: #003366 !important;
+  }
+
+  /* Customer Information Row */
+  #printable-invoice-paper .grid {
+    border-color: #0f172a !important;
+  }
+
+  /* Column-locked Table Layout for Invoices */
+  #printable-invoice-paper table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    border-collapse: collapse !important;
+    border: 1.5px solid #0f172a !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* Table Headers with Locked Widths & Perfect Alignment */
+  #printable-invoice-paper table thead tr {
+    background-color: #f1f5f9 !important;
+    border-bottom: 1.5px solid #0f172a !important;
+  }
+
+  #printable-invoice-paper table th {
+    padding: 8px 10px !important;
+    font-size: 9.5pt !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #0f172a !important;
+    border-right: 1px solid #0f172a !important;
+    border-bottom: 1.5px solid #0f172a !important;
+  }
+
+  #printable-invoice-paper table td {
+    padding: 7px 10px !important;
+    font-size: 10pt !important;
+    color: #0f172a !important;
+    border-right: 1px solid #0f172a !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    vertical-align: middle !important;
+  }
+
+  /* Exact column alignment & locked widths */
+  /* Column 1: Description (50%) */
+  #printable-invoice-paper table th:nth-child(1),
+  #printable-invoice-paper table td:nth-child(1) {
+    width: 50% !important;
+    text-align: left !important;
+  }
+
+  /* Column 2: Quantity (14%) */
+  #printable-invoice-paper table th:nth-child(2),
+  #printable-invoice-paper table td:nth-child(2) {
+    width: 14% !important;
+    text-align: center !important;
+  }
+
+  /* Column 3: Unit Price (18%) */
+  #printable-invoice-paper table th:nth-child(3),
+  #printable-invoice-paper table td:nth-child(3) {
+    width: 18% !important;
+    text-align: right !important;
+  }
+
+  /* Column 4: Total Amount (18%) */
+  #printable-invoice-paper table th:nth-child(4),
+  #printable-invoice-paper table td:nth-child(4) {
+    width: 18% !important;
+    text-align: right !important;
+    border-right: none !important;
+    font-weight: 800 !important;
+  }
+
+  /* Column 5: Action Button (Hidden) */
+  #printable-invoice-paper table th:nth-child(5),
+  #printable-invoice-paper table td:nth-child(5) {
+    display: none !important;
+  }
+
+  /* Form Inputs inside invoice rendered as clean printed text */
+  #printable-invoice-paper input,
+  #printable-invoice-paper textarea,
+  #printable-invoice-paper select {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 10pt !important;
+    font-weight: 600 !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Hide number input spinners on print */
+  #printable-invoice-paper input[type="number"]::-webkit-outer-spin-button,
+  #printable-invoice-paper input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+  #printable-invoice-paper input[type="number"] {
+    -moz-appearance: textfield !important;
+  }
+
+  /* Input alignment inside columns */
+  #printable-invoice-paper table td:nth-child(1) input {
+    text-align: left !important;
+  }
+  #printable-invoice-paper table td:nth-child(2) input {
+    text-align: center !important;
+  }
+  #printable-invoice-paper table td:nth-child(3) input {
+    text-align: right !important;
+  }
+
+  /* Customer info inputs keep a subtle dotted underline */
+  #printable-invoice-paper .border-dotted {
+    border-bottom: 1px dotted #64748b !important;
+  }
+
+  /* Totals, Summary & Discount Breakdown */
+  #printable-invoice-paper .border-t-2 {
+    border-top: 1.5px solid #0f172a !important;
+  }
+
+  #printable-invoice-paper .border-t-2.border-dotted {
+    border-top: 1px dotted #94a3b8 !important;
+  }
+
+  /* Official Total Amount Display */
+  #printable-invoice-paper span.min-w-\[140px\],
+  #printable-invoice-paper span.text-2xl,
+  #printable-invoice-paper span.font-mono.font-black {
+    color: #003366 !important;
+    font-weight: 900 !important;
+    border-bottom-color: #003366 !important;
+  }
+
+  /* Bank Details Box on Print */
+  #printable-invoice-paper .rounded-xl.border {
+    background-color: #f8fafc !important;
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    padding: 8px 12px !important;
+    margin-top: 12px !important;
+  }
+
+  #printable-invoice-paper .rounded-xl.border * {
+    color: #0f172a !important;
+  }
+
+  #printable-invoice-paper .rounded-xl.border .text-amber-500,
+  #printable-invoice-paper .rounded-xl.border .font-black {
+    color: #003366 !important;
+    font-weight: 900 !important;
+  }
+
+  /* Signatures Section */
+  #printable-invoice-paper .mt-8,
+  #printable-invoice-paper .mt-12 {
+    margin-top: 24px !important;
+  }
+
+  #printable-invoice-paper .border-b.border-dotted {
+    border-bottom: 1.5px dotted #0f172a !important;
+  }
+
+  /* Order Receipt & Technician Quote Paper resets */
+  #printable-order-receipt,
+  #technician-quote-paper {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #0f172a !important;
+    border-radius: 6px !important;
+    padding: 20px !important;
     margin: 0 auto !important;
     max-width: 100% !important;
     box-shadow: none !important;
@@ -110,30 +357,23 @@
     break-inside: avoid !important;
   }
 
-  #printable-order-receipt {
-    border: 1.5px solid #0f172a !important;
-    background: #ffffff !important;
+  #printable-order-receipt *,
+  #technician-quote-paper * {
     color: #0f172a !important;
-    padding: 20px !important;
-    margin: 0 !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+    background-color: transparent !important;
   }
 
-  #technician-quote-paper {
-    border: 1.5px solid #0f172a !important;
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 20px !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    page-break-inside: avoid !important;
-    break-inside: avoid !important;
+  #printable-order-receipt table,
+  #technician-quote-paper table {
+    width: 100% !important;
+    border-collapse: collapse !important;
   }
 
-  /* Keep input text visible and clean */
-  input, textarea, select {
-    border-color: #005599 !important;
-    color: #002244 !important;
+  #printable-order-receipt table th,
+  #printable-order-receipt table td,
+  #technician-quote-paper table th,
+  #technician-quote-paper table td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 6px 8px !important;
   }
 }
