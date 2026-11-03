@@ -137,16 +137,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleTriggerScreenBoot = () => {
-    const splash = document.getElementById('chuks-splash');
-    if (splash) {
-      splash.style.pointerEvents = 'auto';
-      splash.classList.remove('fade-out');
-      setTimeout(() => {
-        splash.classList.add('fade-out');
+    if (typeof window !== 'undefined' && (window as any).__runSplashSequence) {
+      (window as any).__runSplashSequence(2200);
+    } else {
+      const splash = document.getElementById('chuks-splash');
+      if (splash) {
+        splash.style.pointerEvents = 'auto';
+        splash.classList.remove('fade-out');
         setTimeout(() => {
-          splash.style.pointerEvents = 'none';
-        }, 500);
-      }, 2600);
+          splash.classList.add('fade-out');
+          setTimeout(() => {
+            splash.style.pointerEvents = 'none';
+          }, 500);
+        }, 2200);
+      }
     }
   };
 

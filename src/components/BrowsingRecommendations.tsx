@@ -38,7 +38,7 @@ export const BrowsingRecommendations: React.FC<BrowsingRecommendationsProps> = (
             <div className="h-3 w-80 rounded bg-slate-800/60" />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="product-cards-grid grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-3 min-[400px]:gap-3.5 sm:gap-6">
           {Array.from({ length: 4 }).map((_, idx) => (
             <ProductCardSkeleton key={`rec-skeleton-${idx}`} />
           ))}
@@ -91,7 +91,7 @@ export const BrowsingRecommendations: React.FC<BrowsingRecommendationsProps> = (
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="product-cards-grid grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-4 gap-3 min-[400px]:gap-3.5 sm:gap-6">
         {recommended.map((product) => (
           <ProductCard
             key={product.id}

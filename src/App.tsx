@@ -745,16 +745,20 @@ export default function App() {
 
                 <button
                   onClick={() => {
-                    const splash = document.getElementById('chuks-splash');
-                    if (splash) {
-                      splash.style.pointerEvents = 'auto';
-                      splash.classList.remove('fade-out');
-                      setTimeout(() => {
-                        splash.classList.add('fade-out');
+                    if (typeof window !== 'undefined' && (window as any).__runSplashSequence) {
+                      (window as any).__runSplashSequence(2200);
+                    } else {
+                      const splash = document.getElementById('chuks-splash');
+                      if (splash) {
+                        splash.style.pointerEvents = 'auto';
+                        splash.classList.remove('fade-out');
                         setTimeout(() => {
-                          splash.style.pointerEvents = 'none';
-                        }, 500);
-                      }, 2600);
+                          splash.classList.add('fade-out');
+                          setTimeout(() => {
+                            splash.style.pointerEvents = 'none';
+                          }, 500);
+                        }, 2200);
+                      }
                     }
                   }}
                   className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-3 text-xs sm:text-sm font-bold active:scale-95 transition ${
@@ -1126,7 +1130,7 @@ export default function App() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 min-[480px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-6">
+          <div className="product-cards-grid grid grid-cols-1 min-[400px]:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 min-[400px]:gap-3.5 sm:gap-6">
             {sortedProducts.map((product) => (
               <ProductCard
                 key={product.id}

@@ -240,6 +240,13 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 7px;
+      }
+      .screen-hud-row {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: 6px;
       }
       .screen-badge-pill {
@@ -254,23 +261,66 @@
         font-weight: 800;
         color: #34d399;
         letter-spacing: 0.05em;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .screen-badge-pill.verified {
+        background: rgba(16, 185, 129, 0.28);
+        border-color: rgba(52, 211, 153, 0.7);
+        color: #6ee7b7;
+        box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+      }
+      .screen-badge-pill .hud-dot {
+        font-size: 6px;
+        line-height: 1;
+        color: #10b981;
+        animation: hudPulse 1.2s ease-in-out infinite;
+      }
+      .screen-hud-counter {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-end;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+        color: #38bdf8;
+        background: rgba(14, 165, 233, 0.14);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        padding: 2.5px 7px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+        font-variant-numeric: tabular-nums;
+        min-width: 44px;
+        text-align: right;
+      }
+      .screen-hud-counter .counter-pct {
+        font-size: 8px;
+        opacity: 0.8;
+        margin-left: 1px;
       }
       .screen-hud-bar {
         width: 100%;
-        height: 4px;
-        border-radius: 2px;
-        background: rgba(255, 255, 255, 0.1);
+        height: 5px;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.08);
         overflow: hidden;
         position: relative;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6);
       }
       .screen-hud-fill {
         position: absolute;
         top: 0;
         left: 0;
         bottom: 0;
-        width: 100%;
-        background: linear-gradient(90deg, #f97316, #38bdf8, #10b981);
-        animation: hudLoad 1.8s ease-in-out infinite;
+        width: 0%;
+        background: linear-gradient(90deg, #f97316 0%, #38bdf8 60%, #10b981 100%);
+        border-radius: 3px;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+        transition: width 0.04s linear;
+      }
+      @keyframes hudPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(0.8); }
       }
 
       /* Bottom Protruding Copper Flex Cable Ribbon */
@@ -385,14 +435,19 @@
               <p class="screen-brand-sub">Park Road • Gwagwalada</p>
             </div>
 
-            <!-- Bottom Live HUD & Verification -->
+            <!-- Bottom Live HUD & Dynamic Percentage Counter -->
             <div class="screen-hud">
-              <div class="screen-badge-pill">
-                <span>●</span>
-                <span>120Hz QC VERIFIED</span>
+              <div class="screen-hud-row">
+                <div class="screen-badge-pill" id="splash-status-pill">
+                  <span class="hud-dot">●</span>
+                  <span id="splash-status-text">120Hz QC VERIFYING</span>
+                </div>
+                <div class="screen-hud-counter" id="splash-hud-counter">
+                  <span id="splash-progress-number">0</span><span class="counter-pct">%</span>
+                </div>
               </div>
               <div class="screen-hud-bar">
-                <div class="screen-hud-fill"></div>
+                <div class="screen-hud-fill" id="splash-bar-fill"></div>
               </div>
             </div>
           </div>
@@ -414,27 +469,89 @@
         <div class="splash-bottom-label">
           <div class="splash-workshop-name">Chuks Communication</div>
           <div class="splash-workshop-sub">Original Screens, Calibrators & Down Boards</div>
-          <div class="splash-progress-text">CALIBRATING PARTS CATALOG & REPAIR WORKBENCH...</div>
+          <div class="splash-progress-text" id="splash-sub-status">CALIBRATING PARTS CATALOG & REPAIR WORKBENCH...</div>
         </div>
       </div>
     </div>
 
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Fallback failsafe to dismiss splash screen if mounting is delayed
-      window.addEventListener('load', function () {
-        setTimeout(function () {
-          var sp = document.getElementById('chuks-splash');
-          if (sp && !sp.classList.contains('fade-out')) {
-            sp.classList.add('fade-out');
-            setTimeout(function () {
-              if (sp && sp.parentNode) sp.parentNode.removeChild(sp);
-            }, 500);
+      // Professional Dynamic Boot Sequence Runner with 0-100% Counter
+      (function () {
+        window.__runSplashSequence = function (durationMs, onComplete) {
+          var splash = document.getElementById('chuks-splash');
+          var numEl = document.getElementById('splash-progress-number');
+          var barEl = document.getElementById('splash-bar-fill');
+          var pillEl = document.getElementById('splash-status-pill');
+          var statusTxt = document.getElementById('splash-status-text');
+          var subStatus = document.getElementById('splash-sub-status');
+          if (!splash) return;
+
+          splash.style.pointerEvents = 'auto';
+          splash.classList.remove('fade-out');
+          if (pillEl) pillEl.classList.remove('verified');
+          if (barEl) barEl.style.width = '0%';
+          if (numEl) numEl.textContent = '0';
+          if (statusTxt) statusTxt.textContent = '120Hz QC VERIFYING';
+          if (subStatus) subStatus.textContent = 'CALIBRATING PARTS CATALOG & REPAIR WORKBENCH...';
+
+          var duration = durationMs || 1050;
+          var startTime = performance.now();
+
+          function step(now) {
+            var elapsed = now - startTime;
+            var progress = Math.min(1, elapsed / duration);
+            // Non-linear easing to simulate technical device diagnostic benchmarks
+            var eased = 1 - Math.pow(1 - progress, 2.8);
+            var pct = Math.min(100, Math.round(eased * 100));
+
+            if (numEl) numEl.textContent = String(pct);
+            if (barEl) barEl.style.width = pct + '%';
+
+            if (subStatus) {
+              if (pct < 35) {
+                subStatus.textContent = 'CALIBRATING PARTS CATALOG & REPAIR WORKBENCH...';
+              } else if (pct < 75) {
+                subStatus.textContent = 'TESTING AMOLED DIGITIZER & IN-DISPLAY OPTICS...';
+              } else if (pct < 100) {
+                subStatus.textContent = 'HARDWARE BENCHMARK & SIGNAL PASSED...';
+              } else {
+                subStatus.textContent = '120Hz AMOLED TEST PASSED • SYSTEM READY';
+              }
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
+              if (numEl) numEl.textContent = '100';
+              if (barEl) barEl.style.width = '100%';
+              if (statusTxt) statusTxt.textContent = '120Hz QC PASSED';
+              if (pillEl) pillEl.classList.add('verified');
+
+              setTimeout(function () {
+                splash.classList.add('fade-out');
+                setTimeout(function () {
+                  splash.style.pointerEvents = 'none';
+                  if (onComplete) onComplete();
+                }, 450);
+              }, 220);
+            }
           }
-        }, 3000);
-      });
+
+          requestAnimationFrame(step);
+        };
+
+        // Launch dynamic 0 to 100% counter sequence on boot
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function () {
+            window.__runSplashSequence(1100);
+          });
+        } else {
+          window.__runSplashSequence(1100);
+        }
+      })();
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
 

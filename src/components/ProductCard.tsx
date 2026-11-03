@@ -33,7 +33,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <div
       id={`product-card-${product.id}`}
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-1 ${
+      className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border p-3 min-[400px]:p-3.5 sm:p-4 transition-all duration-300 hover:-translate-y-1 ${
         isDarkMode
           ? 'border-stone-800/90 bg-stone-900/80 hover:border-orange-500/40 hover:shadow-xl hover:shadow-orange-950/20 text-stone-100'
           : 'border-slate-200/90 bg-white hover:border-orange-400 hover:shadow-lg hover:shadow-orange-500/10 text-slate-900'
@@ -41,14 +41,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       {/* Top Metadata Header - Clean Unboxed Typography (Zero-Pill Discipline) */}
       <div className="flex items-center justify-between gap-1 z-10 text-xs">
-        <div className={`flex items-center gap-1.5 text-[11px] font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
-          <span className={`font-semibold ${isDarkMode ? 'text-amber-400' : 'text-orange-600'}`}>{product.brand}</span>
+        <div className={`flex items-center gap-1 min-w-0 flex-1 text-[10px] min-[400px]:text-[11px] font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+          <span className={`font-semibold shrink-0 ${isDarkMode ? 'text-amber-400' : 'text-orange-600'}`}>{product.brand}</span>
           <span aria-hidden="true" className={isDarkMode ? 'text-stone-700' : 'text-slate-300'}>·</span>
-          <span className={`truncate max-w-[90px] ${isDarkMode ? 'text-stone-300' : 'text-slate-600'}`}>{product.sku}</span>
+          <span className={`truncate max-w-[55px] min-[400px]:max-w-[70px] sm:max-w-[90px] ${isDarkMode ? 'text-stone-300' : 'text-slate-600'}`}>{product.sku}</span>
           {discountPercent > 0 && (
             <>
               <span aria-hidden="true" className={isDarkMode ? 'text-stone-700' : 'text-slate-300'}>·</span>
-              <span className={`font-bold ${isDarkMode ? 'text-orange-400' : 'text-rose-600'}`}>-{discountPercent}%</span>
+              <span className={`font-bold shrink-0 ${isDarkMode ? 'text-orange-400' : 'text-rose-600'}`}>-{discountPercent}%</span>
             </>
           )}
         </div>
@@ -60,7 +60,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             e.stopPropagation();
             onToggleWishlist(product.id);
           }}
-          className={`rounded-lg p-1.5 transition ${
+          className={`shrink-0 rounded-lg p-1 min-[400px]:p-1.5 transition ${
             isWishlisted
               ? 'bg-rose-500/20 text-rose-500'
               : isDarkMode
@@ -69,14 +69,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           }`}
           title={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
         >
-          <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
+          <Heart className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
       </div>
 
       {/* Component Box Graphic */}
       <div
         onClick={() => onViewDetails(product)}
-        className={`relative my-3 flex aspect-[4/3] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border transition ${
+        className={`relative my-2 sm:my-3 flex aspect-[4/3] w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border transition ${
           isDarkMode ? 'bg-stone-950/90 border-stone-800/60' : 'bg-slate-50 border-slate-200/80 hover:bg-slate-100/60'
         }`}
       >
@@ -95,14 +95,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Real-time Inventory Status Indicator */}
-        <div className={`absolute bottom-2 left-2 right-2 flex items-center justify-between text-[10px] px-2 py-0.5 rounded backdrop-blur-sm border ${
+        <div className={`absolute bottom-1.5 left-1.5 right-1.5 flex items-center justify-between text-[9px] min-[400px]:text-[10px] px-1.5 min-[400px]:px-2 py-0.5 rounded backdrop-blur-sm border ${
           isDarkMode
             ? 'text-stone-300 bg-stone-950/85 border-stone-800/80'
             : 'text-slate-700 bg-white/90 border-slate-200/80 shadow-2xs'
         }`}>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1 truncate">
             <span
-              className={`h-1.5 w-1.5 rounded-full ${
+              className={`h-1.5 w-1.5 rounded-full shrink-0 ${
                 product.stock > 10
                   ? 'bg-emerald-500 animate-pulse'
                   : product.stock > 0
@@ -110,11 +110,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   : 'bg-rose-500'
               }`}
             />
-            <span className={`font-medium ${isDarkMode ? 'text-stone-300' : 'text-slate-700'}`}>
+            <span className={`font-medium truncate ${isDarkMode ? 'text-stone-300' : 'text-slate-700'}`}>
               {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
             </span>
           </div>
-          <span className={`font-mono text-[9px] uppercase tracking-wider ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+          <span className={`font-mono text-[8.5px] uppercase tracking-wider shrink-0 ml-1 ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
             {product.condition.includes('Service Pack') ? 'Service Pack' : 'Grade A+'}
           </span>
         </div>
@@ -125,7 +125,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <div>
           <h3
             onClick={() => onViewDetails(product)}
-            className={`cursor-pointer text-sm font-semibold line-clamp-2 transition ${
+            className={`cursor-pointer text-xs sm:text-sm font-semibold line-clamp-2 leading-snug transition ${
               isDarkMode ? 'text-stone-100 hover:text-amber-400' : 'text-slate-900 hover:text-orange-600'
             }`}
             title={product.name}
@@ -134,8 +134,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
 
           {/* Clean Unboxed Technical Specs Line */}
-          <div className={`mt-2 flex items-center gap-2 text-[11px] ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
-            <span className={`flex items-center gap-1 ${isDarkMode ? 'text-stone-300' : 'text-slate-700'}`}>
+          <div className={`mt-1.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10px] min-[400px]:text-[11px] ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+            <span className={`flex items-center gap-1 shrink-0 ${isDarkMode ? 'text-stone-300' : 'text-slate-700'}`}>
               <Wrench className="h-3 w-3 text-orange-500" />
               {product.repairDifficulty}
             </span>
@@ -148,7 +148,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Model Fit Snippet */}
           {product.compatibleModels.length > 0 && (
-            <p className={`mt-1.5 text-[10px] line-clamp-1 font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+            <p className={`mt-1 text-[9.5px] min-[400px]:text-[10px] truncate font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
               Fits: {product.compatibleModels.slice(0, 2).join(', ')}
               {product.compatibleModels.length > 2 ? ` +${product.compatibleModels.length - 2} more` : ''}
             </p>
@@ -156,24 +156,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </div>
 
         {/* Pricing & Add to cart button */}
-        <div className={`mt-3.5 border-t pt-3 ${isDarkMode ? 'border-stone-800/80' : 'border-slate-100'}`}>
-          <div className="flex items-baseline justify-between mb-3">
-            <div>
-              <span className={`text-lg font-bold tracking-tight font-mono ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>
+        <div className={`mt-2.5 sm:mt-3.5 border-t pt-2.5 sm:pt-3 ${isDarkMode ? 'border-stone-800/80' : 'border-slate-100'}`}>
+          <div className="flex flex-wrap items-baseline justify-between gap-1 mb-2 sm:mb-3">
+            <div className="flex items-baseline gap-1.5 flex-wrap min-w-0">
+              <span className={`text-sm min-[400px]:text-base sm:text-lg font-bold tracking-tight font-mono ${isDarkMode ? 'text-white' : 'text-slate-950'}`}>
                 ₦{product.price.toLocaleString()}
               </span>
               {product.originalPrice > product.price && (
-                <span className={`ml-2 text-xs line-through font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-400'}`}>
+                <span className={`text-[10px] sm:text-xs line-through font-mono ${isDarkMode ? 'text-stone-400' : 'text-slate-400'}`}>
                   ₦{product.originalPrice.toLocaleString()}
                 </span>
               )}
             </div>
-            <span className={`text-[11px] font-medium ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
+            <span className={`text-[10px] min-[400px]:text-[11px] font-medium shrink-0 ${isDarkMode ? 'text-stone-400' : 'text-slate-500'}`}>
               ★ {product.rating} <span className={isDarkMode ? 'text-stone-500' : 'text-slate-400'}>({product.reviewCount})</span>
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {product.stock === 0 ? (
               <button
                 id={`notify-stock-${product.id}`}
@@ -185,7 +185,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     onViewDetails(product);
                   }
                 }}
-                className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition active:scale-[0.98] cursor-pointer ${
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2 sm:py-2.5 px-2 text-[10px] sm:text-xs font-bold transition active:scale-[0.98] cursor-pointer min-w-0 ${
                   isProductBackInStockAlerted(product.id)
                     ? 'border border-emerald-500/50 bg-emerald-950/50 text-emerald-300 hover:bg-emerald-900/60 shadow-md shadow-emerald-950/20'
                     : 'border border-amber-500/40 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-extrabold shadow-md shadow-amber-600/20'
@@ -198,13 +198,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               >
                 {isProductBackInStockAlerted(product.id) ? (
                   <>
-                    <Check className="h-4 w-4 text-emerald-400" />
-                    <span>Restock Alert Set</span>
+                    <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-400 shrink-0" />
+                    <span className="truncate">Alert Set</span>
                   </>
                 ) : (
                   <>
-                    <BellRing className="h-4 w-4" />
-                    <span>Notify When Back in Stock</span>
+                    <BellRing className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                    <span className="truncate">Restock Alert</span>
                   </>
                 )}
               </button>
@@ -212,7 +212,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               <button
                 id={`add-to-cart-${product.id}`}
                 onClick={() => onAddToCart(product)}
-                className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2.5 text-xs font-bold transition active:scale-[0.98] cursor-pointer ${
+                className={`flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2 sm:py-2.5 px-2 text-[11px] sm:text-xs font-bold transition active:scale-[0.98] cursor-pointer min-w-0 ${
                   isInCart
                     ? 'bg-emerald-600 text-white hover:bg-emerald-500 shadow-md shadow-emerald-600/20'
                     : 'bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-stone-950 shadow-md shadow-orange-500/20'
@@ -220,11 +220,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               >
                 {isInCart ? (
                   <>
-                    <Check className="h-4 w-4 shrink-0" /> <span className="truncate">Added to Cart</span>
+                    <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" /> <span className="truncate">Added</span>
                   </>
                 ) : (
                   <>
-                    <ShoppingCart className="h-4 w-4 shrink-0" /> <span className="truncate">Add to Cart</span>
+                    <ShoppingCart className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" /> <span className="truncate">Add to Cart</span>
                   </>
                 )}
               </button>
@@ -233,7 +233,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             {isInCart && product.stock > 0 && (
               <button
                 onClick={() => onAddToCart(product)}
-                className={`flex h-9 w-9 items-center justify-center rounded-xl transition ${
+                className={`flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl transition ${
                   isDarkMode
                     ? 'bg-stone-800 text-stone-200 hover:bg-stone-700'
                     : 'bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-200'
