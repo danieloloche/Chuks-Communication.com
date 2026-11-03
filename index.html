@@ -35,7 +35,7 @@
       // Service worker is managed by React application lifecycle
     </script>
     <style>
-      /* Lightweight CSS splash screen displayed immediately while the React bundle is loading (Light UI) */
+      /* Executive Opening Animated Smartphone Screen Assembly */
       #chuks-splash {
         position: fixed;
         inset: 0;
@@ -44,152 +44,378 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background-color: #f8fafc;
-        color: #0f172a;
+        background: radial-gradient(circle at 50% 40%, #0d1b2e 0%, #050b14 65%, #020617 100%);
+        color: #f8fafc;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-        padding: 24px;
+        padding: 20px;
         text-align: center;
         user-select: none;
         -webkit-user-select: none;
-        transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+        overflow: hidden;
+        transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s ease;
       }
       #chuks-splash.fade-out {
         opacity: 0;
+        transform: scale(1.04);
         visibility: hidden;
         pointer-events: none;
       }
-      .splash-content {
+
+      /* Ambient Background Circuit / Grid Overlay */
+      .splash-ambient-grid {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+        background-size: 32px 32px;
+        pointer-events: none;
+        mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
+        -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, transparent 70%);
+      }
+
+      .splash-screen-container {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
-        max-width: 380px;
+        max-width: 340px;
         width: 100%;
+        animation: phoneFloat 3.8s ease-in-out infinite;
       }
-      .splash-logo-box {
+
+      /* Realistic Smartphone AMOLED Display Chassis */
+      .phone-chassis {
         position: relative;
-        width: 76px;
-        height: 76px;
-        border-radius: 20px;
-        background: #ffffff;
-        border: 1.5px solid rgba(249, 115, 22, 0.45);
+        width: 260px;
+        height: 380px;
+        border-radius: 40px;
+        background: #090e17;
+        padding: 8px;
+        box-shadow: 
+          0 0 0 2px rgba(56, 189, 248, 0.3),
+          0 0 0 5px #020617,
+          0 20px 50px -10px rgba(0, 0, 0, 0.9),
+          0 0 60px rgba(14, 165, 233, 0.25);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: visible;
+      }
+
+      /* Active AMOLED Screen Glass */
+      .screen-glass {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 32px;
+        background: #030712;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 14px 16px 14px;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+      }
+
+      /* Fluid AMOLED Gradient Aurora Background */
+      .screen-oled-aurora {
+        position: absolute;
+        inset: -50%;
+        background: conic-gradient(from 180deg at 50% 50%, #0369a1, #f97316, #06b6d4, #0284c7, #0369a1);
+        filter: blur(40px);
+        opacity: 0.35;
+        animation: oledSpin 8s linear infinite;
+        pointer-events: none;
+      }
+
+      /* Dynamic Glass Reflection Sheen */
+      .screen-glare {
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        width: 300%;
+        height: 300%;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 45%, transparent 60%);
+        transform: rotate(25deg);
+        animation: glareSweep 3.5s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      /* Horizontal Laser Scanline */
+      .screen-scanline {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #38bdf8, #f59e0b, transparent);
+        box-shadow: 0 0 14px #38bdf8;
+        opacity: 0.8;
+        animation: scanline 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        pointer-events: none;
+      }
+
+      /* Top Speaker & Dynamic Island Camera */
+      .phone-top-bar {
+        position: relative;
+        z-index: 10;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 12px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(249, 115, 22, 0.15);
-        animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both, splashFloat 3.6s ease-in-out 0.7s infinite;
+        width: 100%;
       }
-      .splash-logo-box img {
+      .phone-camera-hole {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #020617;
+        border: 2px solid #1e293b;
+        box-shadow: inset 0 0 4px #0284c7;
+        position: relative;
+      }
+      .phone-camera-hole::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: #38bdf8;
+      }
+
+      /* Center Logo Emblem */
+      .screen-emblem-wrap {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .screen-logo-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1.5px solid rgba(56, 189, 248, 0.5);
+        box-shadow: 0 0 25px rgba(56, 189, 248, 0.35), inset 0 0 15px rgba(249, 115, 22, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        animation: logoPulse 2.8s ease-in-out infinite;
+      }
+      .screen-logo-icon img {
         width: 100%;
         height: 100%;
         object-fit: contain;
-        display: block;
       }
-      .splash-live-indicator {
-        position: absolute;
-        bottom: -2px;
-        right: -2px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: #10b981;
-        border: 2px solid #ffffff;
-        box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
-      }
-      .splash-title {
-        margin: 20px 0 0 0;
-        font-size: 18px;
+
+      /* Brand Titles inside screen */
+      .screen-brand-title {
+        margin: 12px 0 2px 0;
+        font-size: 15px;
         font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+      }
+      .screen-brand-sub {
+        margin: 0;
+        font-size: 9.5px;
+        font-weight: 700;
+        color: #f59e0b;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: #0f172a;
-        line-height: 1.2;
-        animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
       }
-      .splash-subtitle {
-        margin: 6px 0 0 0;
+
+      /* Screen Bottom HUD / Status */
+      .screen-hud {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .screen-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 9px;
+        font-weight: 800;
+        color: #34d399;
+        letter-spacing: 0.05em;
+      }
+      .screen-hud-bar {
+        width: 100%;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        position: relative;
+      }
+      .screen-hud-fill {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(90deg, #f97316, #38bdf8, #10b981);
+        animation: hudLoad 1.8s ease-in-out infinite;
+      }
+
+      /* Bottom Protruding Copper Flex Cable Ribbon */
+      .phone-flex-cable {
+        position: absolute;
+        bottom: -24px;
+        width: 90px;
+        height: 28px;
+        background: linear-gradient(180deg, #78350f 0%, #b45309 60%, #92400e 100%);
+        border: 1px solid #d97706;
+        border-radius: 0 0 8px 8px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 4px;
+        padding-bottom: 4px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+      }
+      .flex-pin {
+        width: 3.5px;
+        height: 10px;
+        background: linear-gradient(180deg, #fef08a 0%, #f59e0b 100%);
+        border-radius: 1px;
+      }
+
+      /* Outside Subtitle & Progress Text */
+      .splash-bottom-label {
+        margin-top: 36px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+      .splash-workshop-name {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #ffffff;
+      }
+      .splash-workshop-sub {
         font-size: 11px;
         font-weight: 600;
-        color: #ea580c;
+        color: #38bdf8;
         letter-spacing: 0.04em;
-        line-height: 1.4;
-        animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both;
       }
-      .splash-spinner-wrap {
-        margin-top: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+      .splash-progress-text {
+        font-size: 10px;
+        font-family: monospace;
+        font-weight: 600;
+        color: #94a3b8;
+        letter-spacing: 0.04em;
       }
-      .splash-spinner {
-        width: 28px;
-        height: 28px;
-        border: 2.5px solid rgba(249, 115, 22, 0.15);
-        border-top-color: #f97316;
-        border-right-color: #ea580c;
-        border-radius: 50%;
-        animation: splashSpin 0.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+
+      /* Keyframe Animations */
+      @keyframes phoneFloat {
+        0%, 100% { transform: translateY(0px) scale(1); }
+        50% { transform: translateY(-7px) scale(1.015); }
       }
-      .splash-caption {
-        margin-top: 14px;
-        font-size: 11px;
-        font-weight: 500;
-        color: #64748b;
-        letter-spacing: 0.02em;
-        animation: splashEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.44s both;
+      @keyframes oledSpin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
-      @keyframes splashEntrance {
-        0% {
-          opacity: 0;
-          transform: translateY(14px) scale(0.96);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+      @keyframes glareSweep {
+        0% { transform: translateY(-30%) rotate(25deg); opacity: 0; }
+        30% { opacity: 0.8; }
+        60% { transform: translateY(30%) rotate(25deg); opacity: 0.8; }
+        100% { transform: translateY(50%) rotate(25deg); opacity: 0; }
       }
-      @keyframes splashSpin {
-        0% {
-          transform: rotate(0deg) scale(0.95);
-        }
-        50% {
-          transform: rotate(180deg) scale(1.05);
-        }
-        100% {
-          transform: rotate(360deg) scale(0.95);
-        }
+      @keyframes scanline {
+        0% { top: 0%; opacity: 0; }
+        15% { opacity: 0.9; }
+        85% { opacity: 0.9; }
+        100% { top: 100%; opacity: 0; }
       }
-      @keyframes splashFloat {
-        0% {
-          transform: translateY(0) scale(1);
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(249, 115, 22, 0.15);
-        }
-        50% {
-          transform: translateY(-6px) scale(1.025);
-          box-shadow: 0 18px 32px -6px rgba(0, 0, 0, 0.12), 0 0 28px rgba(249, 115, 22, 0.25);
-        }
-        100% {
-          transform: translateY(0) scale(1);
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(249, 115, 22, 0.15);
-        }
+      @keyframes logoPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(56, 189, 248, 0.35); }
+        50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(249, 115, 22, 0.45); }
+      }
+      @keyframes hudLoad {
+        0% { transform: translateX(-100%); }
+        50% { transform: translateX(0%); }
+        100% { transform: translateX(100%); }
       }
     </style>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-orange-500 selection:text-white">
-    <!-- Lightweight CSS-based splash screen: displays instantly while the React bundle is loading -->
+    <!-- Executive Animated OLED Smartphone Screen Splash Reveal -->
     <div id="chuks-splash" aria-hidden="true">
-      <div class="splash-content">
-        <div class="splash-logo-box">
-          <img src="/icon.svg" alt="Chuks Communication Logo" width="76" height="76" />
-          <span class="splash-live-indicator"></span>
+      <div class="splash-ambient-grid"></div>
+
+      <div class="splash-screen-container">
+        <!-- Realistic Phone Chassis with Active AMOLED Screen -->
+        <div class="phone-chassis">
+          <div class="screen-glass">
+            <!-- Fluid OLED Background Aurora -->
+            <div class="screen-oled-aurora"></div>
+            <!-- Glass glare & scanline sweep -->
+            <div class="screen-glare"></div>
+            <div class="screen-scanline"></div>
+
+            <!-- Top Camera Aperture -->
+            <div class="phone-top-bar">
+              <div class="phone-camera-hole"></div>
+            </div>
+
+            <!-- Central Official Emblem & Branding -->
+            <div class="screen-emblem-wrap">
+              <div class="screen-logo-icon">
+                <img src="/icon.svg" alt="Chuks Logo" width="56" height="56" />
+              </div>
+              <h2 class="screen-brand-title">CHUKS AMOLED</h2>
+              <p class="screen-brand-sub">Park Road • Gwagwalada</p>
+            </div>
+
+            <!-- Bottom Live HUD & Verification -->
+            <div class="screen-hud">
+              <div class="screen-badge-pill">
+                <span>●</span>
+                <span>120Hz QC VERIFIED</span>
+              </div>
+              <div class="screen-hud-bar">
+                <div class="screen-hud-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Protruding Copper Flex Ribbon with Gold Pins -->
+          <div class="phone-flex-cable">
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+            <div class="flex-pin"></div>
+          </div>
         </div>
-        <h1 class="splash-title">Chuks Communication</h1>
-        <p class="splash-subtitle">Screens, Calibrators & Down Boards • Gwagwalada, Abuja</p>
-        <div class="splash-spinner-wrap">
-          <div class="splash-spinner"></div>
+
+        <!-- Outside Labeling & Diagnostics Status -->
+        <div class="splash-bottom-label">
+          <div class="splash-workshop-name">Chuks Communication</div>
+          <div class="splash-workshop-sub">Original Screens, Calibrators & Down Boards</div>
+          <div class="splash-progress-text">CALIBRATING PARTS CATALOG & REPAIR WORKBENCH...</div>
         </div>
-        <p class="splash-caption">Loading genuine phone parts catalog...</p>
       </div>
     </div>
 
@@ -204,9 +430,9 @@
             sp.classList.add('fade-out');
             setTimeout(function () {
               if (sp && sp.parentNode) sp.parentNode.removeChild(sp);
-            }, 400);
+            }, 500);
           }
-        }, 3500);
+        }, 3000);
       });
     </script>
   </body>

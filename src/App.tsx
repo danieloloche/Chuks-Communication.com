@@ -22,6 +22,7 @@ import {
   QrCode,
   FileText,
   X,
+  Smartphone,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Product, Order, BroadcastNotification, CartItem, ProductCategory, ProductBrand, PriceDropAlert } from './types';
@@ -739,7 +740,32 @@ export default function App() {
                   }`}
                 >
                   <QrCode className="h-4 w-4 text-orange-500" />
-                  <span>Technician Scanner & Tools</span>
+                  <span>Technician Tools</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    const splash = document.getElementById('chuks-splash');
+                    if (splash) {
+                      splash.style.pointerEvents = 'auto';
+                      splash.classList.remove('fade-out');
+                      setTimeout(() => {
+                        splash.classList.add('fade-out');
+                        setTimeout(() => {
+                          splash.style.pointerEvents = 'none';
+                        }, 500);
+                      }, 2600);
+                    }
+                  }}
+                  className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-3 text-xs sm:text-sm font-bold active:scale-95 transition ${
+                    isDarkMode
+                      ? 'border-cyan-500/40 bg-cyan-950/20 text-cyan-300 hover:bg-cyan-900/30'
+                      : 'border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-100 shadow-2xs'
+                  }`}
+                  title="Watch Animated Screen Boot Reveal"
+                >
+                  <Smartphone className="h-4 w-4 text-cyan-500" />
+                  <span>Screen Demo</span>
                 </button>
               </div>
             </div>

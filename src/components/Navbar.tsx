@@ -128,6 +128,28 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const totalBadgeCount = alertsCount + unreadNotificationsCount;
 
+  const [copiedBank, setCopiedBank] = useState(false);
+
+  const handleCopyBank = () => {
+    navigator.clipboard.writeText('8163301810');
+    setCopiedBank(true);
+    setTimeout(() => setCopiedBank(false), 2500);
+  };
+
+  const handleTriggerScreenBoot = () => {
+    const splash = document.getElementById('chuks-splash');
+    if (splash) {
+      splash.style.pointerEvents = 'auto';
+      splash.classList.remove('fade-out');
+      setTimeout(() => {
+        splash.classList.add('fade-out');
+        setTimeout(() => {
+          splash.style.pointerEvents = 'none';
+        }, 500);
+      }, 2600);
+    }
+  };
+
   return (
     <>
       <header
@@ -137,44 +159,83 @@ export const Navbar: React.FC<NavbarProps> = ({
             : 'border-slate-200/90 bg-white/95 text-slate-800 shadow-xs'
         }`}
       >
-        {/* Subtle Top Info Strip */}
+        {/* Executive Store & Wholesaler Verification Top Strip */}
         <div
-          className={`border-b px-3 py-1 text-[11px] transition-colors ${
+          className={`border-b px-3 py-1.5 text-[11px] transition-colors ${
             isDarkMode
-              ? 'bg-stone-900/60 border-stone-850 text-stone-300'
-              : 'bg-slate-100/90 border-slate-200/80 text-slate-600'
+              ? 'bg-stone-900/80 border-stone-850 text-stone-300'
+              : 'bg-slate-100/95 border-slate-200/80 text-slate-700'
           }`}
         >
-          <div className="mx-auto max-w-7xl flex items-center justify-between gap-2">
-            <div className="flex items-center gap-1.5 truncate">
-              <MapPin className="h-3 w-3 text-orange-500 shrink-0" />
-              <span className={`font-medium truncate ${isDarkMode ? 'text-stone-200' : 'text-slate-800'}`}>
-                Park Road, Gwagwalada, Abuja
-              </span>
-              <span className={isDarkMode ? 'text-stone-600' : 'text-slate-300'}>•</span>
-              <span className={`hidden sm:inline truncate ${isDarkMode ? 'text-amber-400/90' : 'text-orange-600 font-semibold'}`}>
-                Screens, Calibrators & Down Boards
-              </span>
+          <div className="mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-2 truncate">
+              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <div className="flex items-center gap-1.5 truncate">
+                <MapPin className="h-3 w-3 text-orange-500 shrink-0" />
+                <span className={`font-bold truncate ${isDarkMode ? 'text-stone-100' : 'text-slate-900'}`}>
+                  Park Road, Gwagwalada, Abuja
+                </span>
+                <span className={isDarkMode ? 'text-stone-600' : 'text-slate-300'}>•</span>
+                <span className={`hidden sm:inline font-semibold ${isDarkMode ? 'text-amber-400' : 'text-orange-600'}`}>
+                  Direct Phone Parts & Optical Calibrators Wholesaler
+                </span>
+              </div>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0 text-xs">
+              {/* Quick Screen Boot Animation Replay */}
+              <button
+                type="button"
+                onClick={handleTriggerScreenBoot}
+                className={`flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition text-[10px] ${
+                  isDarkMode
+                    ? 'bg-cyan-500/15 border border-cyan-500/35 text-cyan-300 hover:bg-cyan-500/25'
+                    : 'bg-cyan-50 border border-cyan-200 text-cyan-700 hover:bg-cyan-100'
+                }`}
+                title="Watch Animated Screen Boot & 120Hz Test Sequence"
+              >
+                <Smartphone className="h-3 w-3 text-cyan-400" />
+                <span>Screen Boot Demo</span>
+              </button>
+
+              {/* Instant Moniepoint Account Copy Button */}
+              <button
+                type="button"
+                onClick={handleCopyBank}
+                className={`flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition text-[10px] ${
+                  copiedBank
+                    ? 'bg-emerald-500 text-stone-950 font-black'
+                    : isDarkMode
+                    ? 'bg-amber-400/15 border border-amber-400/35 text-amber-300 hover:bg-amber-400/25'
+                    : 'bg-orange-50 border border-orange-200 text-orange-700 hover:bg-orange-100'
+                }`}
+                title="Click to copy Moniepoint transfer account: 8163301810"
+              >
+                <FileText className="h-3 w-3" />
+                <span>{copiedBank ? '✓ Copied: 8163301810' : 'Moniepoint: 8163301810'}</span>
+              </button>
+
+              <span className={isDarkMode ? 'text-stone-700' : 'text-slate-300'}>•</span>
+
               <a
                 href="tel:07039564380"
-                className={`inline-flex items-center gap-1 font-semibold transition ${
-                  isDarkMode ? 'text-stone-300 hover:text-amber-300' : 'text-slate-600 hover:text-orange-600'
+                className={`inline-flex items-center gap-1 font-bold transition ${
+                  isDarkMode ? 'text-stone-300 hover:text-amber-300' : 'text-slate-700 hover:text-orange-600'
                 }`}
-                title="Call 07039564380"
+                title="Call Store Admin"
               >
                 <PhoneCall className="h-3 w-3 text-orange-500" />
                 <span>07039564380</span>
               </a>
+
               <span className={isDarkMode ? 'text-stone-700' : 'text-slate-300'}>•</span>
+
               <a
                 href="https://wa.me/2347039564380?text=Hello%20Chuks%20Communication%2C%20I%20am%20inquiring%20about%20phone%20parts"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-semibold text-emerald-600 hover:text-emerald-500 transition"
-                title="Chat on WhatsApp"
+                className="inline-flex items-center gap-1 font-bold text-emerald-600 hover:text-emerald-500 transition"
+                title="Chat with Admin on WhatsApp"
               >
                 <MessageCircle className="h-3 w-3" />
                 <span className="hidden xs:inline">WhatsApp</span>

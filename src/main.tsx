@@ -100,17 +100,17 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 );
 
-// Smoothly dismiss the initial HTML splash screen once React mounts
+// Smoothly dismiss the initial HTML splash screen once React mounts, providing a smooth 850ms screen-boot reveal
 if (typeof document !== 'undefined') {
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     const splash = document.getElementById('chuks-splash');
     if (splash && !splash.classList.contains('fade-out')) {
       splash.classList.add('fade-out');
       setTimeout(() => {
         if (splash.parentNode) splash.parentNode.removeChild(splash);
-      }, 400);
+      }, 500);
     }
-  });
+  }, 850);
 }
 
 // PWA Service Worker Registration:
