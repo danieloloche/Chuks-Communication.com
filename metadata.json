@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Chuks Store - Phone Parts \u0026 Accessories",
+  "description": "Chuks Ogo Sam Venture: Online phone parts, screens, batteries, charging flexes, accessories with real-time inventory, secure checkout, admin controls, PWA installability, and AI shopping assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
